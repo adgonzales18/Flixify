@@ -1,8 +1,9 @@
 import React from 'react'
+import Nav from 'react-bootstrap/Nav';
 
 function NavListItem({nav}) {
   return (
-    <li><a href={nav.link}>{nav.name}</a></li>
+    <Nav.Link href={nav.link}>{nav.name}</Nav.Link>
   )
 }
 
