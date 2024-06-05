@@ -14,11 +14,16 @@ const navListData = [
     {
         _id: 3,
         link: '#',
-        name: "Log In",
+        name: "TV Show",
         active: true
     },
 
-
+    {
+        _id: 4,
+        link: '#',
+        name: "Movies",
+        active: true
+    },
 ]
 
 export default navListData

@@ -1,8 +1,35 @@
-Navbar {
+
+header {
+    position: fixed;
+    top: 1;
+    left: 0;
+    width: 100%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.5s;
+    z-index: 10000;
+}
+
+header.scrolled {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom: 2px solid var(--primary) ;
+    border-image: linear-gradient(90deg, transparent, var(--primary), transparent) 30;
+    backdrop-filter: blur(20px);
+    padding: 10px 100px;
 }
 
 .brand-logo {
-    height: 5rem;
-    width: auto;
+    font-family: "Racing Sans One",  cursive;
+    font-size: 2rem;
+    color: whitesmoke;
+    letter-spacing: 2px;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
 }

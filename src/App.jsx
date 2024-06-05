@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import Header from './pages/Header'
+import Hero from './pages/Hero'
+import './app.css'
 
 function App() {
   return (
@@ -10,5 +9,4 @@ function App() {
     </>
   )
 }
-
 export default App
