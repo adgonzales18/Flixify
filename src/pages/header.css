@@ -1,12 +1,13 @@
 
 header {
     position: fixed;
-    top: 1;
+    top: 0;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 30px 100px;
     transition: 0.5s;
     z-index: 10000;
 }
@@ -21,9 +22,9 @@ header.scrolled {
 
 .brand-logo {
     font-family: "Racing Sans One",  cursive;
-    font-size: 2rem;
+    font-size: 3rem;
     color: whitesmoke;
-    letter-spacing: 2px;
+    letter-spacing: 5px;
     font-weight: 800;
     text-decoration: none;
     text-transform: uppercase;
@@ -31,5 +32,4 @@ header.scrolled {
 
 .navbar {
     display: flex;
-    justify-content: space-between;
 }

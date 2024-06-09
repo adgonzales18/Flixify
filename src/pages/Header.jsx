@@ -5,7 +5,8 @@ import navListData from "../data/navListData";
 import NavCategories from "../components/NavCategories";
 import navCategories from "../data/navCategories";
 import './header.css'
-
+import Search from "../components/Search"
+import Button from "../components/Button";
 
 export default function Header() {
     return (
@@ -16,6 +17,8 @@ export default function Header() {
                         <NavListItem key={nav._id} nav={nav} />
                     ))}
                 </ul>
+                <Search />
+                <Button icon={<ion-icon name="log-in-outline"></ion-icon>} name='Sign In'/>
         </header>
     );
 }
