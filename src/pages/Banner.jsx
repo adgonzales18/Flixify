@@ -13,7 +13,7 @@ export default function Banner() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [genreList, setGenreList] = useState([]);
 
-  const apiKey = '5f344fdb6e12a4c6991cb0ff692f5a60';
+  const apiKey = import.meta.env.VITE_APP_API_KEY;
   const url =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
   
   const fetchGenreList = async () => {
