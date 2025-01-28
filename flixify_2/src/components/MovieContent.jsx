@@ -1,26 +1,48 @@
 import React from 'react'
 import './movieContent.css';
+import Button from './Button';
 
-function MovieContent() {
+function formatReleaseDate(releaseDateStr) {
+  const releaseDate = new Date(releaseDateStr);
+
+  // Get month and year from the Date object
+  const month = releaseDate.toLocaleString('default', { month: 'long' });
+  const year = releaseDate.getFullYear(); 
+
+  // Return formatted string
+  return `${month} ${year}`;
+}
+function MovieContent({movie, genreList}) {
+  const getGenreNames = () => {
+    if (!genreList || !genreList.length || !movie.genre_ids) return [];
+    return movie.genre_ids.map((genreId) => {
+      const genre = genreList.find((genre) => genre.id === genreId);
+      return genre ? genre.name : '';
+    });
+  };
+
+  const genreNames = getGenreNames();
   return (
-    <div className="content">
-      <img src="" alt="Movie Title" className="movie-title" />
-      <h4>c
-        <span>Year</span>
-        <span><i>age</i></span>
-        <span>length</span>
-        <span>category</span>
+    <div className="content active">
+      <h1 className="movie-title">{movie.title}</h1>
+      <h4>
+        <span>{formatReleaseDate(movie.release_date)}</span>
+        <span><i>{movie.original_language}</i></span>
+        <span>Rating: {Math.ceil(movie.vote_average)}</span>
+        <span>{genreNames.join(', ')}</span>
       </h4>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Expedita, deleniti exercitationem, odit id, quisquam laudantium 
-        aliquam voluptatum consequatur eum eos quae animi dolores placeat 
-        neque ad sed dolore quas voluptatibus suscipit esse obcaecati quo! 
-        Beatae est, voluptatem temporibus aspernatur quas consequatur 
-        incidunt sunt totam sit doloremque laudantium id fugiat nostrum.
-      </p>
+      <p>{movie.overview}</p>
       <div className="button">
-        Button
+       <Button 
+          icon={<ion-icon name="bookmark-outline"></ion-icon>} 
+          name='Bookmark' 
+          color='#ff3700' 
+          bgColor='#ffffff'
+        />
+        <Button 
+        icon={<ion-icon name="add-outline"></ion-icon>}
+        name='My List'      
+        />
       </div>
     </div>
   )
