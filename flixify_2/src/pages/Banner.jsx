@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import './banner.css'
+import MovieContent from '../components/MovieContent'
+import MovieDate from '../components/MovieDate'
+
 
 function Banner() {
   const [movies, setMovies] = useState([])
@@ -10,7 +13,7 @@ function Banner() {
   const fetchData = () => {
     fetch(url)
     .then((res) => res.json())
-    .then((data) => setMovies(data))
+    .then((data) => setMovies(data.results))
     .catch(e=>console.log(e.message))
   }
 
@@ -20,33 +23,18 @@ function Banner() {
   return (
     <div className="banner">
       <div className="movie">
-        <img src="" alt="Background Image" className="bgImg" />
+        <img src="" alt="Background Image" className="bgImg active" />
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-6 col-md-12">
-              <div className="content">
-                <img src="" alt="Movie Title" className="movie-title" />
-                <h4>c
-                  <span>Year</span>
-                  <span><i>age</i></span>
-                  <span>length</span>
-                  <span>category</span>
-                  </h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Expedita, deleniti exercitationem, odit id, quisquam laudantium 
-                    aliquam voluptatum consequatur eum eos quae animi dolores placeat 
-                    neque ad sed dolore quas voluptatibus suscipit esse obcaecati quo! 
-                    Beatae est, voluptatem temporibus aspernatur quas consequatur 
-                    incidunt sunt totam sit doloremque laudantium id fugiat nostrum.
-                  </p>
-                  <div className="button">
-                    Button
-                  </div>
-              </div>
+              <MovieContent/>
             </div>
             <div className="col-lg-6 col-md-12">
-
+              <MovieDate/>
+              <div className="trailer d-flex align-items-center justify-content-center active">
+                <a href="" className="playBtn"><ion-icon name="play-outline"></ion-icon></a>
+                <p>Watch Trailer</p>
+              </div>
             </div>
           </div>
         </div>
@@ -55,5 +43,4 @@ function Banner() {
     </div>
   )
 }
-
 export default Banner
