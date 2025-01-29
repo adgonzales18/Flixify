@@ -21,13 +21,23 @@
     width: 100%;
 }
 
-.banner .content h4{
+.banner .content h4 {
     color: rgba(255,255,2555,0.6);
     font-weight: 400;
     font-size: 30px;
 }
 
-.banner .content h4 span:last-child{
+.banner .content h4 span {
+    padding: 0 10px;
+    border-right: 1px solid rgba(255, 255, 2555, 0.6);
+
+}
+
+.banner .content h4 span:first-child { 
+    padding-left: 0;
+}
+
+.banner .content h4 span:last-child{ 
     border-right:0;
 }
 

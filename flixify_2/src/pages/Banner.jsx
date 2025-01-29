@@ -76,9 +76,11 @@ function Banner() {
                 {selectedMovie && <MovieTrailer />}
               </div>
             </div>
+            <div className="carousel-wrapper">
+              <MovieCarousel slides={movies} slideChange={handleSlideChange}/>
+            </div>
           </div>
         </div>
-        <MovieCarousel slides={movies} slideChange={handleSlideChange}/>
         </>
     )}
     </div>
