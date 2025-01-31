@@ -30,20 +30,20 @@ function Banner() {
   };
 
   const fetchData = async () => {
-    fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
       setMovies(data.results);
       setLoading(false);
-      if (data.results.length > 0) {
+      if (data.results.length > 0 && !selectedMovie && !selectedBackdropPath) {
+        // Set initial movie and backdrop
         setSelectedBackdropPath(data.results[0].backdrop_path);
         setSelectedMovie(data.results[0]);
       }
-    })
-    .catch((error) => {
+    } catch (error) {
       setError(error.message);
       setLoading(false);
-    });
+    }
   };
 
   useEffect(() => {
@@ -52,9 +52,12 @@ function Banner() {
   }, []);
 
   const handleSlideChange = (backdropPath, movie) => {
+
+    console.log("Background Change: ", backdropPath);
+    console.log ("Selected Movie: ", movie);
+
     setSelectedBackdropPath(backdropPath);
     setSelectedMovie(movie);
-    
   }
   return (
     <div className="banner">
@@ -65,12 +68,13 @@ function Banner() {
       ) : (
       <>
         <div className="movie">
-          <img src={`https://image.tmdb.org/t/p/original${selectedBackdropPath}`} alt="Background Image" className={`bgImg ${selectedMovie && selectedMovie.backdrop_path === selectedBackdropPath ? 'active' : ''}`} />
+          <img src={`https://image.tmdb.org/t/p/original${selectedBackdropPath}`} alt="Background Image" className={`bgImg ${selectedBackdropPath ? 'active' : ''}`} />
           <div className="container-fluid">
             <div className="row">
               <div className="col-lg-6 col-md-12">
-                {selectedMovie && <MovieContent movie={selectedMovie} genreList={genreList} />}
-              </div>
+                {selectedMovie ? (
+                  <MovieContent movie={selectedMovie} genreList={genreList} />
+                ) : ( <p>Select a movie content to view</p> )}</div>
               <div className="col-lg-6 col-md-12">
                 {selectedMovie && <MovieDate />}
                 {selectedMovie && <MovieTrailer />}

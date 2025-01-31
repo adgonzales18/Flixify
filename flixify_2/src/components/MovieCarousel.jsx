@@ -21,7 +21,7 @@ function MovieCarousel({slides, slideChange}) {
         centeredSlides={true}
         slidesPerView={'auto'}
         autoplay={{
-            delay: 1500,
+            delay: 2500,
             disableOnInteraction: false,
         }}
         coverflowEffect={{
@@ -34,13 +34,25 @@ function MovieCarousel({slides, slideChange}) {
         loop={true}
         modules={[Autoplay, EffectCoverflow]}
         className="movieSwiper"
+        onSlideChange={(swiper) => {
+            const currentSlide = swiper.slides[swiper.activeIndex];
+            const backdropPath = currentSlide.getAttribute('data-backdrop');
+            const movie = slides[swiper.activeIndex];
+
+            console.log("Slide Change to :", movie.title);
+            slideChange(backdropPath, movie);
+        }}
         >
             {
-                slides.map(slide => (
-                    <SwiperSlide key={slide.id}>
-                        <img src={`https://image.tmdb.org/t/p/original${slide.poster_path}`} alt="Preview Image" onClick={() => {
-                            slideChange(slide.backdrop_path, slide)
-                        } }/>
+                slides.map((slide) => (
+                    <SwiperSlide key={slide.id} data-backdrop={slide.backdrop_path}>
+                        <img src={`https://image.tmdb.org/t/p/original${slide.poster_path}`} 
+                        alt="Preview Image" 
+                        onClick={() => {
+                        console.log("Image Clicked: ", slide.title);
+                        slideChange(slide.backdrop_path, slide);
+                        }}
+                        />
                     </SwiperSlide>
                 ))
             }

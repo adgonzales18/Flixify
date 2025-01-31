@@ -44,7 +44,7 @@
     font-size: 8rem;
     visibility: hidden;
     opacity: 0;
-    transition: 1s;
+    transition: opacity 1s ease-in-out, visibility 0s 1s;
 }
 
 .bgImg.active {
