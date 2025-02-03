@@ -16,47 +16,51 @@ function MovieCarousel({slides, slideChange}) {
     }
     return (
         <Swiper
-        effect={'coverflow'}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={'auto'}
-        autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-        }}
-        coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-        }}
-        loop={true}
-        modules={[Autoplay, EffectCoverflow]}
-        className="movieSwiper"
-        onSlideChange={(swiper) => {
-            const currentSlide = swiper.slides[swiper.activeIndex];
-            const backdropPath = currentSlide.getAttribute('data-backdrop');
-            const movie = slides[swiper.activeIndex];
+            effect={'coverflow'}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={'auto'}
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+            }}
+            coverflowEffect={{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            }}
+            loop={true}
+            modules={[Autoplay, EffectCoverflow]}
+            className="movieSwiper"
+            onSlideChange={(swiper) => {
 
-            console.log("Slide Change to :", movie.title);
-            slideChange(backdropPath, movie);
-        }}
-        >
+                const activeSlideIndex = swiper.activeIndex;
+                const currentMovie = slides[activeSlideIndex];
+
+                console.log('Current Slide Index:', activeSlideIndex);
+                console.log('Movie Data:', currentMovie);
+                
+                slideChange(currentMovie.backdrop_path, currentMovie);  // Update both the background and the movie state
+              }}
+            >
             {
                 slides.map((slide) => (
-                    <SwiperSlide key={slide.id} data-backdrop={slide.backdrop_path}>
-                        <img src={`https://image.tmdb.org/t/p/original${slide.poster_path}`} 
-                        alt="Preview Image" 
-                        onClick={() => {
+                <SwiperSlide key={slide.id} data-backdrop={slide.backdrop_path}>
+                    <img 
+                    src={`https://image.tmdb.org/t/p/original${slide.poster_path}`} 
+                    alt="Preview Image" 
+                    onClick={() => {
                         console.log("Image Clicked: ", slide.title);
-                        slideChange(slide.backdrop_path, slide);
-                        }}
-                        />
-                    </SwiperSlide>
+                        slideChange(slide.backdrop_path, slide);  // Update on click as well
+                    }}
+                    />
+                </SwiperSlide>
                 ))
             }
         </Swiper>
+
     
     );
     }

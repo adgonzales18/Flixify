@@ -10,10 +10,13 @@ function Banner() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedBackdropPath, setSelectedBackdropPath] = useState('');
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [genreList, setGenreList] = useState([]);
+  const [selectedMovieData, setSelectedMovieData] =useState({
+    backdropPath: '',
+    movie: null,
+  });
 
+  const [genreList, setGenreList] = useState([]);
+  const [hasUserSelectedMovie, setHasUserSelectedMovie] = useState(false);
 
   const apiKey = import.meta.env.VITE_APP_API_KEY;
   const url =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
@@ -35,10 +38,13 @@ function Banner() {
       const data = await response.json();
       setMovies(data.results);
       setLoading(false);
-      if (data.results.length > 0 && !selectedMovie && !selectedBackdropPath) {
+      if (data.results.length > 0 && !selectedMovieData.movie) {
         // Set initial movie and backdrop
-        setSelectedBackdropPath(data.results[0].backdrop_path);
-        setSelectedMovie(data.results[0]);
+        const initialMovie = data.results[0];
+        setSelectedMovieData ({
+          backdropPath: initialMovie.backdrop_path,
+          movie: initialMovie,
+        })
       }
     } catch (error) {
       setError(error.message);
@@ -52,12 +58,17 @@ function Banner() {
   }, []);
 
   const handleSlideChange = (backdropPath, movie) => {
+    if (movie) {
+      setHasUserSelectedMovie(true); 
+      setSelectedMovieData({
+        backdropPath,
+        movie,
+      });
+    }
+  };
 
-    console.log("Background Change: ", backdropPath);
-    console.log ("Selected Movie: ", movie);
-
-    setSelectedBackdropPath(backdropPath);
-    setSelectedMovie(movie);
+  const handleAutoplayStart = () => {
+    setHasUserSelectedMovie(false);
   }
   return (
     <div className="banner">
@@ -68,20 +79,20 @@ function Banner() {
       ) : (
       <>
         <div className="movie">
-          <img src={`https://image.tmdb.org/t/p/original${selectedBackdropPath}`} alt="Background Image" className={`bgImg ${selectedBackdropPath ? 'active' : ''}`} />
+          <img src={`https://image.tmdb.org/t/p/original${selectedMovieData.backdropPath}`} alt="Background Image" className={`bgImg ${selectedMovieData.backdropPath ? 'active' : ''}`} />
           <div className="container-fluid">
             <div className="row">
               <div className="col-lg-6 col-md-12">
-                {selectedMovie ? (
-                  <MovieContent movie={selectedMovie} genreList={genreList} />
+                {hasUserSelectedMovie && selectedMovieData.movie ? (
+                  <MovieContent key={selectedMovieData.movie.id} movie={selectedMovieData.movie} genreList={genreList} />
                 ) : ( <p>Select a movie content to view</p> )}</div>
               <div className="col-lg-6 col-md-12">
-                {selectedMovie && <MovieDate />}
-                {selectedMovie && <MovieTrailer />}
+                {hasUserSelectedMovie && selectedMovieData.movie && <MovieDate movie={selectedMovieData.movie} />}
+                {hasUserSelectedMovie && selectedMovieData.movie && <MovieTrailer movie={selectedMovieData.movie} />}
               </div>
             </div>
             <div className="carousel-wrapper">
-              <MovieCarousel slides={movies} slideChange={handleSlideChange}/>
+              <MovieCarousel slides={movies} slideChange={handleSlideChange} autoplayStart={handleAutoplayStart} hasUserSelectedMovie={hasUserSelectedMovie} />
             </div>
           </div>
         </div>

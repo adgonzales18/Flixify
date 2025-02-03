@@ -42,15 +42,15 @@
     object-fit: cover;
     object-position: center;
     font-size: 8rem;
-    visibility: hidden;
     opacity: 0;
-    transition: opacity 1s ease-in-out, visibility 0s 1s;
-}
-
-.bgImg.active {
-    visibility: visible;
+    visibility: hidden; /* Hide it initially */
+    transition: opacity 1s ease-in-out, visibility 0s 1s; /* Ensure smooth opacity transition */
+  }
+  
+  .bgImg.active {
     opacity: 1;
-}
+    visibility: visible; /* Make it visible when active */
+  }
 
 .banner .trailer {
     position: relative;
