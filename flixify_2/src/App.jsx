@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import 'swiper/css'
 import './app.css'
 import Header from './pages/Header'
 import Banner from './pages/Banner'
-import 'swiper/css'
+
 
 function App() {
     return (

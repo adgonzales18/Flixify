@@ -2,16 +2,7 @@ import React from 'react'
 import './movieContent.css';
 import Button from './Button';
 
-function formatReleaseDate(releaseDateStr) {
-  const releaseDate = new Date(releaseDateStr);
 
-  // Get month and year from the Date object
-  const month = releaseDate.toLocaleString('default', { month: 'long' });
-  const year = releaseDate.getFullYear(); 
-
-  // Return formatted string
-  return `${month} ${year}`;
-}
 function MovieContent({movie, genreList}) {
   const getGenreNames = () => {
     if (!genreList || !genreList.length || !movie.genre_ids) return [];
@@ -21,12 +12,16 @@ function MovieContent({movie, genreList}) {
     });
   };
 
+
   const genreNames = getGenreNames();
+
+  const contentType = movie?.media_type === 'movie' ? 'Movie' : movie?.media_type === 'tv' ? 'TV Series' : 'Unknown';
+  
   return (
     <div className="content active">
-      <h1 className="movie-title">{movie.title}</h1>
+      <h1 className="movie-title">{movie.title || movie.name}</h1>
       <h4>
-        <span>{formatReleaseDate(movie.release_date)}</span>
+        <span>{contentType}</span>
         <span><i>{movie.original_language}</i></span>
         <span>Rating: {Math.ceil(movie.vote_average)}</span>
         <span>{genreNames.join(', ')}</span>

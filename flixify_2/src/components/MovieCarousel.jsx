@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './movieCarousel.css';
 
 //import carousel from swiper react component
@@ -10,10 +10,11 @@ import 'swiper/css/pagination';
 import { Autoplay, EffectCoverflow} from 'swiper/modules';
 
 
-function MovieCarousel({slides, slideChange}) {
+function MovieCarousel({slides, slideChange, swiperRef}) {
     if(!Array.isArray(slides)) {
         return null;
     }
+
     return (
         <Swiper
             effect={'coverflow'}
@@ -44,6 +45,10 @@ function MovieCarousel({slides, slideChange}) {
                 
                 slideChange(currentMovie.backdrop_path, currentMovie);  // Update both the background and the movie state
               }}
+
+                onSwiper={(swiperInstance) => {
+                swiperRef.current = swiperInstance; // Store swiper instance for future use
+              }}
             >
             {
                 slides.map((slide) => (
@@ -52,7 +57,6 @@ function MovieCarousel({slides, slideChange}) {
                     src={`https://image.tmdb.org/t/p/original${slide.poster_path}`} 
                     alt="Preview Image" 
                     onClick={() => {
-                        console.log("Image Clicked: ", slide.title);
                         slideChange(slide.backdrop_path, slide);  // Update on click as well
                     }}
                     />

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './banner.css'
 import MovieContent from '../components/MovieContent'
 import MovieDate from '../components/MovieDate'
@@ -19,8 +19,9 @@ function Banner() {
   const [hasUserSelectedMovie, setHasUserSelectedMovie] = useState(false);
 
   const apiKey = import.meta.env.VITE_APP_API_KEY;
-  const url =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
+  const url =`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`;
 
+  const swiperRef = useRef(null); 
   
   const fetchGenreList = async () => {
     try {
@@ -36,22 +37,49 @@ function Banner() {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setMovies(data.results);
+  
+      const moviesWithVideos = await Promise.all(
+        data.results.map(async (movie) => {
+          const videoResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}`);
+          const videoData = await videoResponse.json();
+  
+          // Look for a trailer (YouTube video)
+          const trailer = videoData.results.find(
+            (video) => video.type === 'Trailer' && video.site === 'YouTube'
+          );
+  
+          // If a trailer is found, add it to the movie
+          if (trailer) {
+            return {
+              ...movie,
+              video: `https://www.youtube.com/embed/${trailer.key}`,
+            };
+          } else {
+            return null; // Return null if no trailer is found
+          }
+        })
+      );
+  
+      // Filter out movies that don't have a trailer
+      const filteredMovies = moviesWithVideos.filter((movie) => movie !== null);
+  
+      setMovies(filteredMovies);
       setLoading(false);
-      if (data.results.length > 0 && !selectedMovieData.movie) {
-        // Set initial movie and backdrop
-        const initialMovie = data.results[0];
-        setSelectedMovieData ({
+  
+      if (filteredMovies.length > 0 && !selectedMovieData.movie) {
+        const initialMovie = filteredMovies[0];
+        setSelectedMovieData({
           backdropPath: initialMovie.backdrop_path,
           movie: initialMovie,
-        })
+        });
       }
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
   };
-
+  
+  
   useEffect(() => {
     fetchData();
     fetchGenreList();
@@ -88,11 +116,11 @@ function Banner() {
                 ) : ( <p>Select a movie content to view</p> )}</div>
               <div className="col-lg-6 col-md-12">
                 {hasUserSelectedMovie && selectedMovieData.movie && <MovieDate movie={selectedMovieData.movie} />}
-                {hasUserSelectedMovie && selectedMovieData.movie && <MovieTrailer movie={selectedMovieData.movie} />}
+                {hasUserSelectedMovie && selectedMovieData.movie && <MovieTrailer movie={selectedMovieData.movie} swiperRef={swiperRef} />}
               </div>
             </div>
             <div className="carousel-wrapper">
-              <MovieCarousel slides={movies} slideChange={handleSlideChange} autoplayStart={handleAutoplayStart} hasUserSelectedMovie={hasUserSelectedMovie} />
+              <MovieCarousel slides={movies} slideChange={handleSlideChange} autoplayStart={handleAutoplayStart} hasUserSelectedMovie={hasUserSelectedMovie} swiperRef={swiperRef} />
             </div>
           </div>
         </div>
