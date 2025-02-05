@@ -12,13 +12,13 @@ const navListData = [
         active: false,
     },
     {
-        _id: 1,
+        _id: 3,
         link: '#trending',
         name: 'trending',
         active: false,
     },
     {
-        _id: 1,
+        _id: 4,
         link: '#blogs',
         name: 'blog',
         active: false,

@@ -14,16 +14,13 @@ function MovieTrailer({movie, swiperRef}) {
       if (modal) {
         // Restart autoplay when modal is closed
         swiperInstance.autoplay.start();
-        console.log("Autoplay restarted after closing trailer");
       } else {
         // Stop autoplay when modal is opened
         swiperInstance.autoplay.stop();
-        console.log("Autoplay stopped due to trailer click");
+    
       }
     }
   }
-
-  console.log("Movie video URL: ", movie.video); // Log the video URL to ensure it exists
 
   return (
     <>

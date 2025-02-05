@@ -40,15 +40,13 @@ function MovieCarousel({slides, slideChange, swiperRef}) {
                 const activeSlideIndex = swiper.activeIndex;
                 const currentMovie = slides[activeSlideIndex];
 
-                console.log('Current Slide Index:', activeSlideIndex);
-                console.log('Movie Data:', currentMovie);
-                
                 slideChange(currentMovie.backdrop_path, currentMovie);  // Update both the background and the movie state
               }}
 
                 onSwiper={(swiperInstance) => {
                 swiperRef.current = swiperInstance; // Store swiper instance for future use
               }}
+              
             >
             {
                 slides.map((slide) => (
