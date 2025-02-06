@@ -1,4 +1,4 @@
-section .movie-card { 
+section .movie-card{
     border: none;
     position: relative;
     border-radius: 0;
@@ -23,10 +23,10 @@ section .movie-card::before {
 
 section .movie-card p {
     color: #dddddd;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 400;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 0px;
 }
 
 section .movie-card .content {
@@ -44,7 +44,6 @@ section .movie-card .content {
     visibility: hidden;
     transition: 0.5s;
     transform: scale(0);
-    z-index: 1000;
 }
 
 section .movie-card .content h4 {
@@ -72,7 +71,7 @@ section .movie-card .content h4::before {
     z-index: 1000;
 }
 
-section .movie-card .content ion-icon {
+section .movie-card .content ion-icon{
     font-size: 2.5rem;
     transition: 0.3s;
     cursor: pointer;

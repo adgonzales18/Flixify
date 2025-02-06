@@ -4,8 +4,20 @@ import Card from '../components/Card';
 
 function Schedule() {
   const [data, setData] = useState([]);
+  const [genreList, setGenreList] = useState([]);
 
   const apiKey = import.meta.env.VITE_APP_API_KEY;
+
+  const fetchGenreList = async () => {
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`);
+      const data = await response.json();
+      setGenreList(data.genres);
+    } catch (error) {
+      console.error('Error fetching genre list:', error);
+    }
+  };
+
 
   const fetchData = () => {
     fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`)
@@ -19,6 +31,7 @@ function Schedule() {
 
   useEffect(() => {
     fetchData();
+    fetchGenreList();
   }, []); // Empty dependency array, this will run once on mount
 
   return (
@@ -38,7 +51,7 @@ function Schedule() {
           <div className="row mt-5">
             {data.length > 0 ? (
               data.map(movie => (
-                <Card key={movie.id} movie={movie} />
+                <Card key={movie.id} movie={movie} genreList={genreList}/>
               ))
             ) : (
               <p>No movies available</p> // Optional message if no data is present
