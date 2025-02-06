@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './schedule.css';
+import Card from '../components/Card';
 
 function Schedule() {
   const [data, setData] = useState([]);
