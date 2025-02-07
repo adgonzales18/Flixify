@@ -17,13 +17,6 @@ const navListData = [
         name: 'trending',
         active: false,
     },
-    {
-        _id: 4,
-        link: '#blogs',
-        name: 'blog',
-        active: false,
-    },
-
 ];
 
 export default navListData

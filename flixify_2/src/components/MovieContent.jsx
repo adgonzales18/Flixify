@@ -12,7 +12,6 @@ function MovieContent({movie, genreList}) {
     });
   };
 
-
   const genreNames = getGenreNames();
 
   const contentType = movie?.media_type === 'movie' ? 'Movie' : movie?.media_type === 'tv' ? 'TV Series' : 'Unknown';

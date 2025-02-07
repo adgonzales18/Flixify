@@ -5,6 +5,7 @@ import Card from '../components/Card';
 function Schedule() {
   const [data, setData] = useState([]);
   const [genreList, setGenreList] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState(null); 
 
   const apiKey = import.meta.env.VITE_APP_API_KEY;
 
@@ -18,13 +19,11 @@ function Schedule() {
     }
   };
 
-
   const fetchData = () => {
     fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`)
       .then(res => res.json())
       .then(data => {
         setData(data.results);
-        console.log('API response:', data.results); // Log the actual data
       })
       .catch(e => console.log(e.message));
   };
@@ -32,7 +31,11 @@ function Schedule() {
   useEffect(() => {
     fetchData();
     fetchGenreList();
-  }, []); // Empty dependency array, this will run once on mount
+  }, []); 
+
+  const filteredData = selectedGenre
+    ? data.filter(movie => movie.genre_ids.includes(selectedGenre))
+    : data;
 
   return (
     <div>
@@ -44,17 +47,31 @@ function Schedule() {
         </div>
         <div>
           <div className="row">
-            <div className="filters">
-              <p>Filters</p>
-            </div>
+            <ul className="filters">
+              <li 
+                onClick={() => setSelectedGenre(null)} 
+                className={selectedGenre === null ? 'active' : ''}
+              >
+                All
+              </li>
+              {genreList.map(genre => (
+                <li 
+                  key={genre.id} 
+                  onClick={() => setSelectedGenre(genre.id)}
+                  className={selectedGenre === genre.id ? 'active' : ''}
+                >
+                  {genre.name}
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="row mt-5">
-            {data.length > 0 ? (
-              data.map(movie => (
-                <Card key={movie.id} movie={movie} genreList={genreList}/>
+            {filteredData.length > 0 ? (
+              filteredData.map(movie => (
+                <Card key={movie.id} movie={movie} genreList={genreList} />
               ))
             ) : (
-              <p>No movies available</p> // Optional message if no data is present
+              <p>No movies available</p>
             )}
           </div>
         </div>

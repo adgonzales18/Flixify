@@ -19,7 +19,7 @@ function Banner() {
   const [applyActiveClass, setApplyActiveClass] = useState(false); // New state to handle transition delay
 
   const apiKey = import.meta.env.VITE_APP_API_KEY;
-  const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`;
+  const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`;
 
   const swiperRef = useRef(null);
 

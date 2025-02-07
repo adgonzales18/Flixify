@@ -2,7 +2,7 @@ import React from 'react'
 import './movieDate.css'
 
 
-function MovieDate({movie}) {
+function MovieDate() {
   return (
     <div className="date active">
         <h2>
